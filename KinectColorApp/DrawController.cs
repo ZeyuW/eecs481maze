@@ -229,7 +229,7 @@ namespace KinectColorApp
 
 		public void findAndInitializeBackgrounds()
 		{
-            string dropBox = @"C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\Resources";
+            string dropBox = @"C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\Resources\bg";
 
 			string[] fileEntries = Directory.GetFiles(dropBox);
 			foreach(string file in fileEntries)
