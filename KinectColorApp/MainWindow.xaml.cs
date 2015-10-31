@@ -130,7 +130,7 @@ namespace KinectColorApp
                 ellipse.Visibility = Visibility.Visible;
                 ellipse.Fill.Opacity = 0.3;
                 //Canvas.SetZIndex(ellipse, 2);
-            }
+            } 
 
             DropShadowEffect glowEffect = new DropShadowEffect();
             glowEffect.ShadowDepth = 0;

@@ -44,8 +44,7 @@ namespace KinectColorApp {
         /// </summary>
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
-        public void InitializeComponent()  
-        {
+        public void InitializeComponent() {
             
             #line 4 "..\..\App.xaml"
             this.StartupUri = new System.Uri("MainWindow.xaml", System.UriKind.Relative);

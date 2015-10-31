@@ -61,7 +61,6 @@ C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\bin\Debug\Microsoft.Sampl
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\bin\Debug\zxing.dll
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\bin\Debug\zxing.kinect.dll
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\bin\Debug\Microsoft.Samples.Kinect.WpfViewers.pdb
-C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.csprojResolveAssemblyReference.cache
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\MainWindow.baml
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\MainWindow.g.cs
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\App.g.cs
@@ -72,3 +71,4 @@ C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.csproj.GenerateResource.Cache
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.exe.manifest
 C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.application
+C:\Users\lenovo\Desktop\481\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.csprojResolveAssemblyReference.cache

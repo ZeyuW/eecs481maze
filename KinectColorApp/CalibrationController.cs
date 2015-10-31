@@ -55,7 +55,7 @@ namespace KinectColorApp
 
                 using (DepthImageFrame depthFrame = e.OpenDepthImageFrame())
                 {
-                    short[] rawDepthData = new short[depthFrame.PixelDataLength];
+                     short[] rawDepthData = new short[depthFrame.PixelDataLength];
                     depthFrame.CopyPixelDataTo(rawDepthData);
                     int depth = rawDepthData[200*depthFrame.Width + 300] >> DepthImageFrame.PlayerIndexBitmaskWidth;
                     threshold = depth;
