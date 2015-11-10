@@ -131,6 +131,10 @@ namespace KinectColorApp
                 else
                 {
                     soundController.StartMusic();
+                    
+                    // i add
+                   // drawController.ClearScreen();
+
                     DrawPoint(depthFrame, bestDepthIndex, minDepth);
                     gotTouch = true;
                 } 
@@ -140,7 +144,12 @@ namespace KinectColorApp
                 if (gotTouch == true)
                 {
                     soundController.StopMusic();
-                    drawController.SaveCanvas();
+
+                    // i add
+                    //drawController.SaveCanvas();
+
+                
+                    //drawController.ClearScreen();
                 }
 
                 gotTouch = false;
@@ -180,6 +189,7 @@ namespace KinectColorApp
                     }
 
                     // Use this button
+                    
                     if (ellipse.Name == "red_selector")
                     {
                         ellipse.Fill.Opacity = 1;
@@ -200,7 +210,7 @@ namespace KinectColorApp
                         glowEffect.Color = Color.FromArgb(255, 115, 78, 255);
                         ellipse.Effect = glowEffect;
                         drawController.ChangeColor(Colors.Blue);
-                    }
+                    } 
                     else if (ellipse.Name == "eraser_selector")
                     {
                         ellipse.Fill.Opacity = 1;

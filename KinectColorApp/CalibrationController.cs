@@ -45,7 +45,7 @@ namespace KinectColorApp
         {
             using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
             {
-                Console.WriteLine("here");
+                //Console.WriteLine("here");
                 if (colorFrame == null) return;
 
                 byte[] pixels = new byte[colorFrame.PixelDataLength];
@@ -55,7 +55,7 @@ namespace KinectColorApp
 
                 using (DepthImageFrame depthFrame = e.OpenDepthImageFrame())
                 {
-                     short[] rawDepthData = new short[depthFrame.PixelDataLength];
+                    short[] rawDepthData = new short[depthFrame.PixelDataLength];
                     depthFrame.CopyPixelDataTo(rawDepthData);
                     int depth = rawDepthData[200*depthFrame.Width + 300] >> DepthImageFrame.PlayerIndexBitmaskWidth;
                     threshold = depth;
@@ -105,11 +105,11 @@ namespace KinectColorApp
                             codes[code_num].Visibility = Visibility.Hidden;
                             codes[code_num + 1].Visibility = Visibility.Visible;
                             next_code_num++;
-                            Thread.Sleep(1000);
+                            Thread.Sleep(3000);
                         }
                         else
                         {
-                            Thread.Sleep(1000);
+                            Thread.Sleep(3000);
                             // We are done. Calculate the coefficients.
                             sensor.AllFramesReady -= this.CalibrationAllFramesReady;
                             codes[4].Visibility = Visibility.Hidden;
@@ -134,6 +134,9 @@ namespace KinectColorApp
         {
             int minDepthIndex = 0;
             int maxDepthIndex = 479 * depthFrame.Width;
+            //int maxDepthIndex = 350 * depthFrame.Width;
+            //int maxDepthIndex = 250 * 500;
+
             short[] rawDepthData = new short[depthFrame.PixelDataLength];
             depthFrame.CopyPixelDataTo(rawDepthData);
 
@@ -143,13 +146,25 @@ namespace KinectColorApp
 
                 // Ignore invalid depth values
                 if (depth == -1 || depth == 0) continue;
+                /*
+                for (int depthIndex1 = minDepthIndex; depthIndex1 < maxDepthIndex; depthIndex1++)
+                {
+                    int depth1 = depth;
+                    if (threshold - depth1 > 150)
+                    {
+                        Console.WriteLine("Column = " + depthIndex1 % depthFrame.Width + ", Row = " + depthIndex1 / depthFrame.Width);
 
-                if ((threshold - depth) > 150)
+                    }
+                }
+                */
+                    if ((threshold - depth) > 150 && (threshold - depth) < 350)
                 {
                     Console.WriteLine(threshold - depth);
                     // Get the point in the depth frame at the center of the barcode
                     double x_kinect = (depthIndex % depthFrame.Width);
                     double y_kinect = (depthIndex / depthFrame.Width);
+                    //double x_kinect = (depthIndex % 500);
+                    //double y_kinect = (depthIndex / 500);
                     Point p = new Point(x_kinect, y_kinect);
                     code_points[next_code_num] = p;
 

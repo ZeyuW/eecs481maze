@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\lenovo\Desktop\481\eecs481maze\KinectforWindowsSDKV1\Dependencies\KinectWpfViewers\obj\Debug\
+C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectforWindowsSDKV1\Dependencies\KinectWpfViewers\obj\Debug\
 Microsoft.Samples.Kinect.WpfViewers
 none
 false
@@ -12,7 +12,7 @@ DEBUG;TRACE
 
 7-1694449150
 
-14-801931406
+14-983509199
 13-216429321
 KinectSensorChooser.xaml;KinectAudioViewer.xaml;KinectDepthViewer.xaml;KinectColorViewer.xaml;KinectDiagnosticViewer.xaml;KinectSettings.xaml;KinectSkeletonViewer.xaml;
 
