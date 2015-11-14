@@ -1,2 +1,3 @@
 #EECS481 Maze with Fish
-This is the Beta Release of Maze project 
+
+Beta release improved: try to add multi-touch functions (Nov. 14)
