@@ -32,7 +32,7 @@ namespace KinectColorApp
         public Image canvasImage;
 
         // for debug
-        public Image fish;
+        //public Image fish;
 
         Ellipse[] buttons;
 		public List<Background> backgrounds;
@@ -125,6 +125,36 @@ namespace KinectColorApp
             //colorRect.Fill = gradientBrush;
         }
 
+        public void DrawFishes(List<Point> pointList, List<int> depthList)
+        {
+            ClearScreen();
+
+            for (int touchNum = 0; touchNum < depthList.Count; touchNum++)
+            {
+                double x = pointList[touchNum].X;
+                double y = pointList[touchNum].Y;
+                int depth = depthList[touchNum];
+
+                Image fish = new Image();
+                string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
+                Uri fishUri = new Uri(fishPath);
+                BitmapImage bi = new BitmapImage(fishUri);
+                fish.Source = bi;
+                fish.Name = "fish";
+
+                fish.Width = 50 + 60 * (depth / 60.0);
+                fish.Height = 50 + 60 * (depth / 60.0);
+
+                Canvas.SetTop(fish, y - fish.Height / 2);
+                Canvas.SetLeft(fish, x - fish.Width / 2);
+                Canvas.SetZIndex(fish, 2);
+
+                drawingCanvas.Children.Add(fish);
+            }
+        }
+
+
+        /*
         public void DrawEllipseAtPoint(double x, double y, int depth)
         {
             // i add
@@ -200,6 +230,7 @@ namespace KinectColorApp
 
             drawingCanvas.Children.Add(fish);
         }
+        */
 
         public void ClearScreen()
         {

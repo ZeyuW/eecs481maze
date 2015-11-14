@@ -87,75 +87,125 @@ namespace KinectColorApp
             depthFrame.CopyPixelDataTo(rawDepthData);
 
             int minDepth = DepthThreshold;
-            int bestDepthIndex = -1;
+            //int bestDepthIndex = -1;
             int minDepthIndex = (int)this.topLeft.Y * depthFrame.Width;
             int maxDepthIndex = (int)this.bottomRight.Y * depthFrame.Width;
 
             minDepthIndex = 0;
             maxDepthIndex = 479 * depthFrame.Width;
 
-            Console.WriteLine(minDepthIndex + " " + depthFrame.Width);
-            for (int depthIndex = minDepthIndex; depthIndex < maxDepthIndex; depthIndex++)
-            {/*
-                // Skip this depth index if it's horizontally outside of our textile
-                int x_kinect = (int)((depthIndex) % depthFrame.Width);
-                
-                if (x_kinect < topLeft.X) { continue; }
-                else if (x_kinect > bottomRight.X)
-                {
-                    //depthIndex += (depthFrame.Width - (int)(bottomRight.X - topLeft.X - 1));
-                    continue;
-                }*/
+            // a vector of touchIndexes to record locations of multi-touch
+            List<int> touchIndexes = new List<int>();
+            List<int> touchDepths = new List<int>();
 
+            Console.WriteLine(minDepthIndex + " " + depthFrame.Width);
+
+            if (!this.hasSetDepthThreshold)
+            {
+                int temp_minDepth = maxDepthIndex;
+                for (int cali_temp = minDepthIndex; cali_temp < maxDepthIndex; cali_temp++)
+                {
+                    int cali_depth = rawDepthData[cali_temp] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+
+                    // Ignore invalid depth values
+                    if (cali_depth == -1 || cali_depth == 0) continue;
+
+                    if (cali_depth < temp_minDepth)
+                    {
+                        temp_minDepth = cali_depth;
+                    }
+                }
+
+                this.DepthThreshold = temp_minDepth - TextileSpacing;
+                this.hasSetDepthThreshold = true;
+            }
+           
+
+
+            for (int depthIndex = minDepthIndex; depthIndex < maxDepthIndex; depthIndex++)
+            {
                 int depth = rawDepthData[depthIndex] >> DepthImageFrame.PlayerIndexBitmaskWidth;
                 
                 // Ignore invalid depth values
                 if (depth == -1 || depth == 0) continue;
                 
-
-                if (depth < minDepth)
+               
+                if (depth < DepthThreshold && this.hasSetDepthThreshold )
                 {
-                    minDepth = depth;
-                    bestDepthIndex = depthIndex;
+                    int touchIndexesSize = touchIndexes.Count;
+                    int cur_x = depthIndex % depthFrame.Width;
+                    int cur_y = depthIndex / depthFrame.Width;
+                    if (touchIndexesSize == 0)
+                    {
+                        touchIndexes.Add(depthIndex);
+                        touchDepths.Add(depth);
+                    }
+
+                    bool is_add = true;
+                    for (int touchNum = 0; touchNum < touchIndexesSize; touchNum++)
+                    {
+                        int touchIdx_x = touchIndexes[touchNum] % depthFrame.Width;
+                        int touchIdx_y = touchIndexes[touchNum] / depthFrame.Width;
+                        if (Math.Abs(cur_x - touchIdx_x) < 200 && Math.Abs(cur_y - touchIdx_y) < 200) {
+                            if (depth < touchDepths[touchNum])
+                            {
+                                touchIndexes[touchNum] = depthIndex;
+                                touchDepths[touchNum] = depth;
+                            }
+                            is_add = false;
+                            break;
+                        }
+ 
+                    }
+                    if (is_add)
+                    {
+                        touchIndexes.Add(depthIndex);
+                        touchDepths.Add(depth);
+                    }
+
                 }
             }
 
             // Draw if a touch was found
-            if (bestDepthIndex >= 0)
+            if (touchIndexes.Count > 0)
             {
-                Console.WriteLine("here");
-                if (!this.hasSetDepthThreshold) {
-                    this.DepthThreshold = minDepth - TextileSpacing;
-                    this.hasSetDepthThreshold = true;
-                }
-                else
-                {
-                    soundController.StartMusic();
-                    
-                    // i add
-                   // drawController.ClearScreen();
+                soundController.StartMusic();
 
-                    DrawPoint(depthFrame, bestDepthIndex, minDepth);
-                    gotTouch = true;
-                } 
+                prepareDrawFish(depthFrame, touchIndexes, touchDepths);
+                gotTouch = true;
+                
             }
             else
             {
                 if (gotTouch == true)
                 {
                     soundController.StopMusic();
-
-                    // i add
-                    //drawController.SaveCanvas();
-
-                
-                    //drawController.ClearScreen();
                 }
-
                 gotTouch = false;
             }
         }
 
+        private void prepareDrawFish(DepthImageFrame depthFrame, List<int> touchIndexes, List<int> touchDepths)
+        {
+            List<int> depthList = new List<int>();
+            List<Point> pointList = new List<Point>();
+            for (int i = 0; i < touchIndexes.Count; i++)
+            {
+                double x_kinect = (touchIndexes[i] % depthFrame.Width);
+                double y_kinect = (touchIndexes[i] / depthFrame.Width);
+
+                double x = x_kinect * calibration_coefficients[0] + y_kinect * calibration_coefficients[1] + calibration_coefficients[2] + 3;
+                double y = x_kinect * calibration_coefficients[3] + y_kinect * calibration_coefficients[4] + calibration_coefficients[5] + 10;
+
+                Point point = new Point(x, y);
+                depthList.Add(DepthThreshold - touchDepths[i]);
+                pointList.Add(point);
+            }
+            drawController.DrawFishes(pointList, depthList);
+        }
+
+
+        /*
         private void DrawPoint(DepthImageFrame depthFrame, int depthIndex, int minDepth)
         {
             double x_kinect = (depthIndex % depthFrame.Width);
@@ -237,6 +287,7 @@ namespace KinectColorApp
             }
             drawController.DrawEllipseAtPoint(x, y, (DepthThreshold - minDepth));
         }
+        */
 
         #endregion
 
