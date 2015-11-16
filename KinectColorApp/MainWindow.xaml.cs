@@ -145,7 +145,7 @@ namespace KinectColorApp
 
         private void OnClick(object sender, MouseButtonEventArgs e)
         {
-            if (!has_started_calibrating)
+            if (!has_started_calibrating && this.sensor != null)
             {
                 Canvas.SetZIndex(image1, 0);
                 this.sensor.AllFramesReady -= calController.DisplayColorImageAllFramesReady;
