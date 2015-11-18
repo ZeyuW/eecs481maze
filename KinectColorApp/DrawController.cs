@@ -128,11 +128,18 @@ namespace KinectColorApp
         public void DrawFishes(List<Point> pointList, List<int> depthList)
         {
             ClearScreen();
+            double last_x = 0;
+            double last_y = 0;
 
             for (int touchNum = 0; touchNum < depthList.Count; touchNum++)
             {
                 double x = pointList[touchNum].X;
                 double y = pointList[touchNum].Y;
+
+                if (Math.Abs(x - last_x) < 150 && Math.Abs(y - last_y) < 150)
+                    continue;
+                last_x = x;
+                last_y = y;
                 int depth = depthList[touchNum];
 
                 Image fish = new Image();

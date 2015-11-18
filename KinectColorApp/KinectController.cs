@@ -130,7 +130,7 @@ namespace KinectColorApp
                 if (depth == -1 || depth == 0) continue;
                 
                
-                if (depth < DepthThreshold && this.hasSetDepthThreshold )
+                if (DepthThreshold - depth > 60 && this.hasSetDepthThreshold )
                 {
                     int touchIndexesSize = touchIndexes.Count;
                     int cur_x = depthIndex % depthFrame.Width;
@@ -144,9 +144,10 @@ namespace KinectColorApp
                     bool is_add = true;
                     for (int touchNum = 0; touchNum < touchIndexesSize; touchNum++)
                     {
+                        is_add = true;
                         int touchIdx_x = touchIndexes[touchNum] % depthFrame.Width;
                         int touchIdx_y = touchIndexes[touchNum] / depthFrame.Width;
-                        if (Math.Abs(cur_x - touchIdx_x) < 200 && Math.Abs(cur_y - touchIdx_y) < 200) {
+                        if (Math.Abs(cur_x - touchIdx_x) < 150 && Math.Abs(cur_y - touchIdx_y) < 150) {
                             if (depth < touchDepths[touchNum])
                             {
                                 touchIndexes[touchNum] = depthIndex;
@@ -177,11 +178,14 @@ namespace KinectColorApp
             }
             else
             {
+                drawController.ClearScreen();
+                /*
                 if (gotTouch == true)
                 {
                     soundController.StopMusic();
                 }
                 gotTouch = false;
+                */
             }
         }
 

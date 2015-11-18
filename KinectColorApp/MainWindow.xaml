@@ -26,6 +26,7 @@
             <Image x:Name="_3_code" Height="225" Canvas.Left="425" Canvas.Top="8" Width="225" Source="Resources/3_code.png"/>
             <Image x:Name="_4_code" Height="225" Canvas.Left="415" Canvas.Top="263" Width="225" Source="Resources/4_code.png"/>
             <Label x:Name="calibrationLabel" Content="Welcome! Click the mouse to calibrate." HorizontalContentAlignment="Center"  VerticalAlignment="Center" Height="47" FontFamily="Segoe Marker" FontSize="30" Canvas.Left="125" Canvas.Top="373" HorizontalAlignment="Center" Panel.ZIndex="12"/>
+            
             <Ellipse x:Name="red_selector" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="435" Panel.ZIndex="6" StrokeThickness="3" Stroke="#FFFF3E00">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -66,6 +67,8 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            
+            
             <Ellipse x:Name="background_selector" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="30" Canvas.Left="610" Canvas.Top="156" Panel.ZIndex="6" Stroke="White" StrokeThickness="3" Opacity="0.3">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="Resources/plus.jpg" Stretch="UniformToFill"/>
