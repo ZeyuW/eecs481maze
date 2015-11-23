@@ -36,7 +36,10 @@ namespace KinectColorApp
             drawBorder.Visibility = Visibility.Hidden;
             colorRect.Visibility = Visibility.Hidden;
 
-            buttons = new Ellipse[] { red_selector, blue_selector, green_selector, eraser_selector, background_selector, refresh_selector };
+            //buttons = new Ellipse[] { red_selector, blue_selector, green_selector, eraser_selector, background_selector, refresh_selector };
+
+            buttons = new Image[] { fish_nimo, fish_a, fish_b, fish_c };
+
             drawController = new DrawController(drawingCanvas, backgroundImage, colorRect, image1, buttons);
             soundController = new SoundController();
             kinectController = new KinectController(drawController, image1, soundController, buttons);
@@ -48,7 +51,8 @@ namespace KinectColorApp
         private KinectController kinectController;
         private KinectSensor sensor;
         bool has_started_calibrating = false;
-        Ellipse[] buttons;
+        //Ellipse[] buttons;
+        Image[] buttons;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -85,11 +89,12 @@ namespace KinectColorApp
             this.MouseDoubleClick += new MouseButtonEventHandler(OnDoubleClick);
             soundController.StartMusic();
             drawController.ChangeBackground();
-            drawController.ChangeColor(Colors.Red);
+            //drawController.ChangeColor(Colors.Red);
 
-            foreach (Ellipse ellipse in buttons)
+            buttons = new Image[] { fish_nimo, fish_a, fish_b, fish_c };
+            foreach (Image i in buttons)
             {
-                ellipse.Visibility = Visibility.Hidden;
+                i.Visibility = Visibility.Hidden;
             }
 
             
@@ -124,23 +129,24 @@ namespace KinectColorApp
             Canvas.SetZIndex(calibrationLabel, 2);
             Canvas.SetZIndex(backgroundImage, 1);
 
-            foreach (Ellipse ellipse in buttons)
+            foreach (Image image in buttons)
             {
-                Canvas.SetLeft(ellipse, drawingCanvas.Width - ellipse.Width - 10);
-                ellipse.Visibility = Visibility.Visible;
-                ellipse.Fill.Opacity = 0.3;
+                Canvas.SetLeft(image, drawingCanvas.Width - image.Width - 10);
+                image.Visibility = Visibility.Visible;
+                
+                //ellipse.Fill.Opacity = 0.3;
                 //Canvas.SetZIndex(ellipse, 2);
             }
 
-            DropShadowEffect glowEffect = new DropShadowEffect();
-            glowEffect.ShadowDepth = 0;
-            glowEffect.Opacity = 255;
-            glowEffect.BlurRadius = 30;
-            glowEffect.Color = Color.FromArgb(255, 255, 80, 44);
-            red_selector.Effect = glowEffect;
-            red_selector.Fill.Opacity = 1;
-            refresh_selector.Fill.Opacity = 1;
-            background_selector.Fill.Opacity = 1;
+            //DropShadowEffect glowEffect = new DropShadowEffect();
+            //glowEffect.ShadowDepth = 0;
+            //glowEffect.Opacity = 255;
+            //glowEffect.BlurRadius = 30;
+            //glowEffect.Color = Color.FromArgb(255, 255, 80, 44);
+            //red_selector.Effect = glowEffect;
+           // red_selector.Fill.Opacity = 1;
+            //refresh_selector.Fill.Opacity = 1;
+            //background_selector.Fill.Opacity = 1;
         }
 
         private void OnClick(object sender, MouseButtonEventArgs e)

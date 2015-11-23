@@ -26,7 +26,10 @@
             <Image x:Name="_3_code" Height="225" Canvas.Left="425" Canvas.Top="8" Width="225" Source="Resources/3_code.png"/>
             <Image x:Name="_4_code" Height="225" Canvas.Left="415" Canvas.Top="263" Width="225" Source="Resources/4_code.png"/>
             <Label x:Name="calibrationLabel" Content="Welcome! Click the mouse to calibrate." HorizontalContentAlignment="Center"  VerticalAlignment="Center" Height="47" FontFamily="Segoe Marker" FontSize="30" Canvas.Left="125" Canvas.Top="373" HorizontalAlignment="Center" Panel.ZIndex="12"/>
+
             
+
+            <!--
             <Ellipse x:Name="red_selector" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="435" Panel.ZIndex="6" StrokeThickness="3" Stroke="#FFFF3E00">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -35,6 +38,12 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            -->
+
+            <Image x:Name="fish_nimo"  Height="45px" Canvas.Left="600" Canvas.Top="435" Width="90px" Panel.ZIndex="100" Source="Resources/nimo.png" >
+            </Image>
+
+            <!--
             <Ellipse x:Name="green_selector" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="368" Panel.ZIndex="6" Stroke="#FF32FF00" StrokeThickness="3">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -43,6 +52,10 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            -->
+            <Image x:Name="fish_a" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Canvas.Left="602" Canvas.Top="368" Width="60" Panel.ZIndex="6" Source="Resources/fish_a.png"/>
+
+            <!--
             <Ellipse x:Name="blue_selector" HorizontalAlignment="Left" Height="47" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="303" Panel.ZIndex="6" Stroke="#FF2400FF" StrokeThickness="3">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -51,6 +64,10 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            -->
+            <Image x:Name="fish_b" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Canvas.Left="602" Canvas.Top="303" Width="60" Panel.ZIndex="6" Source="Resources/fish_b.png"/>
+
+            <!--
             <Ellipse x:Name="eraser_selector" HorizontalAlignment="Left" Height="47" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="238" Panel.ZIndex="6" Stroke="White" StrokeThickness="3">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -59,6 +76,10 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
+            -->
+            <Image x:Name="fish_c" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Canvas.Left="602" Canvas.Top="238" Width="60" Panel.ZIndex="6" Source="Resources/fish_c.png"/>
+
+            <!--
             <Ellipse x:Name="refresh_selector" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="30" Canvas.Left="610" Canvas.Top="119" Panel.ZIndex="6" Stroke="White" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Opacity="0.3">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
@@ -67,14 +88,14 @@
                     </RadialGradientBrush>
                 </Ellipse.Fill>
             </Ellipse>
-            
-            
+
+
             <Ellipse x:Name="background_selector" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="30" Canvas.Left="610" Canvas.Top="156" Panel.ZIndex="6" Stroke="White" StrokeThickness="3" Opacity="0.3">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="Resources/plus.jpg" Stretch="UniformToFill"/>
                 </Ellipse.Fill>
             </Ellipse>
-
+            -->
 
         </Canvas>
 

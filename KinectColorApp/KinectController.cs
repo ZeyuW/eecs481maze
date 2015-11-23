@@ -18,7 +18,7 @@ namespace KinectColorApp
         private Image debugImage;
         private DrawController drawController;
         private SoundController soundController;
-        Ellipse[] buttons;
+        Image[] buttons;
 
         DateTime last_background_change = DateTime.Now;
         private bool hasSetDepthThreshold = false;
@@ -30,7 +30,7 @@ namespace KinectColorApp
         private Point topLeft;
         private Point bottomRight;
 
-        public KinectController(DrawController dController, Image image, SoundController sController, Ellipse[] buttons)
+        public KinectController(DrawController dController, Image image, SoundController sController, Image[] buttons)
         {
             debugImage = image;
             drawController = dController;
@@ -178,7 +178,7 @@ namespace KinectColorApp
             }
             else
             {
-                drawController.ClearScreen();
+                //drawController.ClearScreen();
                 /*
                 if (gotTouch == true)
                 {
@@ -200,6 +200,44 @@ namespace KinectColorApp
 
                 double x = x_kinect * calibration_coefficients[0] + y_kinect * calibration_coefficients[1] + calibration_coefficients[2] + 3;
                 double y = x_kinect * calibration_coefficients[3] + y_kinect * calibration_coefficients[4] + calibration_coefficients[5] + 10;
+
+
+                
+                foreach (Image image in buttons)
+                {
+                    double top = Canvas.GetTop(image);
+                    double left = Canvas.GetLeft(image);
+                    if (y >= top && x >= left && y <= top + image.Height && x <= left + image.Width)
+                    {
+                        foreach (Image tmp in buttons)
+                        {
+                            tmp.Width = 60;
+                            tmp.Height = 30;
+                        }
+
+                        image.Width = 90;
+                        image.Height = 45;
+
+                        if (image.Name == "fish_nimo")
+                        {
+                            drawController.changeFishImage("nimo");
+                        }
+                        else if (image.Name == "fish_a")
+                        {
+                            drawController.changeFishImage("fish_a");
+                        }
+                        else if (image.Name == "fish_b")
+                        {
+                            drawController.changeFishImage("fish_b");
+                        }
+                        else if (image.Name == "fish_c")
+                        {
+                            drawController.changeFishImage("fish_c");
+                        }
+                    }
+                }
+
+
 
                 Point point = new Point(x, y);
                 depthList.Add(DepthThreshold - touchDepths[i]);

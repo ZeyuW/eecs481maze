@@ -25,6 +25,8 @@ namespace KinectColorApp
 
         public int shouldChangeColor = -1;
         int prevBackground = 0;
+
+        string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
         
         public Canvas drawingCanvas;
         public Image backgroundImage;
@@ -34,11 +36,11 @@ namespace KinectColorApp
         // for debug
         //public Image fish;
 
-        Ellipse[] buttons;
+        Image[] buttons;
 		public List<Background> backgrounds;
 		public Background background;
 
-        public DrawController(Canvas canvas, Image image, Rectangle rect, Image canvasImage, Ellipse[] buttons)
+        public DrawController(Canvas canvas, Image image, Rectangle rect, Image canvasImage, Image[] buttons)
         {
             drawingCanvas = canvas;
             backgroundImage = image;
@@ -50,6 +52,7 @@ namespace KinectColorApp
 			backgrounds = new List<Background>();
 			findAndInitializeBackgrounds();
 			background = backgrounds[0];
+
         }
 
         public void CycleBackgrounds()
@@ -87,6 +90,14 @@ namespace KinectColorApp
 			ClearScreen();
 
         }
+
+
+        public void changeFishImage(string fishName)
+        {
+            //fishPath = @"Resources\" + fishName + ".png"; 
+            fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\" + fishName + ".png";
+        }
+
 
         public void ChangeColor(Colors new_color)
         {
@@ -143,7 +154,7 @@ namespace KinectColorApp
                 int depth = depthList[touchNum];
 
                 Image fish = new Image();
-                string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
+                
                 Uri fishUri = new Uri(fishPath);
                 BitmapImage bi = new BitmapImage(fishUri);
                 fish.Source = bi;
@@ -264,13 +275,15 @@ namespace KinectColorApp
             canvasImage.Source = null;
         }
 
+
+        
         public void SaveCanvas()
         {
             Size size = new Size(System.Windows.SystemParameters.PrimaryScreenWidth, System.Windows.SystemParameters.PrimaryScreenHeight);
             drawingCanvas.Measure(size);
             backgroundImage.Visibility = Visibility.Hidden;
 
-            foreach (Ellipse ellipse in buttons)
+            foreach (Image ellipse in buttons)
             {
                 ellipse.Visibility = Visibility.Hidden;
             }
@@ -284,7 +297,7 @@ namespace KinectColorApp
                 );
             rtb.Render(drawingCanvas);
             backgroundImage.Visibility = Visibility.Visible;
-            foreach (Ellipse ellipse in buttons)
+            foreach (Image ellipse in buttons)
             {
                 ellipse.Visibility = Visibility.Visible;
             }
@@ -301,6 +314,7 @@ namespace KinectColorApp
                 }
             }
         }
+        
 
 		public void findAndInitializeBackgrounds()
 		{

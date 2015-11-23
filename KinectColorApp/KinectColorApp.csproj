@@ -176,8 +176,12 @@
     <Content Include="Resources\blue_SFX.wav" />
     <Content Include="Resources\change_background_SFX.wav" />
     <Content Include="Resources\eraser_SFX.wav" />
+    <Resource Include="Resources\fish_a.png" />
+    <Resource Include="Resources\fish_b.png" />
+    <Resource Include="Resources\fish_c.png" />
     <Content Include="Resources\green_SFX.wav" />
     <Resource Include="Resources\plus.jpg" />
+    <Resource Include="Resources\nimo.png" />
     <Content Include="Resources\red_SFX.wav" />
   </ItemGroup>
   <ItemGroup>
