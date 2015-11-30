@@ -193,6 +193,7 @@ namespace KinectColorApp
         {
             List<int> depthList = new List<int>();
             List<Point> pointList = new List<Point>();
+            
             for (int i = 0; i < touchIndexes.Count; i++)
             {
                 double x_kinect = (touchIndexes[i] % depthFrame.Width);
@@ -205,10 +206,12 @@ namespace KinectColorApp
                 
                 foreach (Image image in buttons)
                 {
+
                     double top = Canvas.GetTop(image);
                     double left = Canvas.GetLeft(image);
                     if (y >= top && x >= left && y <= top + image.Height && x <= left + image.Width)
                     {
+                        
                         foreach (Image tmp in buttons)
                         {
                             tmp.Width = 60;

@@ -63,6 +63,8 @@ namespace KinectColorApp
         bool has_started_calibrating = false;
         //Ellipse[] buttons;
         Image[] buttons;
+        Image[] Seaweed_list;
+        bool isMazeOn = false;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -79,11 +81,17 @@ namespace KinectColorApp
                     {
                         i.Visibility = Visibility.Hidden;
                     }
+
+                    Seaweed_list = new Image[] { Seaweed };
+                    foreach (Image ii in Seaweed_list)
+                    {
+                        ii.Visibility = Visibility.Hidden;
+                    }
+
                     _0_code.Visibility = Visibility.Visible;
                     calController = new CalibrationController(sensor, kinectController, drawingCanvas, codes, image1);
                     calController.CalibrationDidComplete += new CalibrationController.calibrationDidCompleteHandler(calibrationCompleted);
-                    //sensor.AllFramesReady += kinectController.SensorAllFramesReady;
-                    //calibrationCompleted();
+   
 
                     this.sensor.AllFramesReady += calController.DisplayColorImageAllFramesReady;
                     this.sensor.ColorStream.Enable();
@@ -153,20 +161,9 @@ namespace KinectColorApp
             {
                 Canvas.SetLeft(image, drawingCanvas.Width - image.Width - 10);
                 image.Visibility = Visibility.Visible;
-                
-                //ellipse.Fill.Opacity = 0.3;
-                //Canvas.SetZIndex(ellipse, 2);
+   
             }
-
-            //DropShadowEffect glowEffect = new DropShadowEffect();
-            //glowEffect.ShadowDepth = 0;
-            //glowEffect.Opacity = 255;
-            //glowEffect.BlurRadius = 30;
-            //glowEffect.Color = Color.FromArgb(255, 255, 80, 44);
-            //red_selector.Effect = glowEffect;
-           // red_selector.Fill.Opacity = 1;
-            //refresh_selector.Fill.Opacity = 1;
-            //background_selector.Fill.Opacity = 1;
+            
         }
 
         private void OnClick(object sender, MouseButtonEventArgs e)
@@ -269,11 +266,18 @@ namespace KinectColorApp
                 case SpeechRecognizer.Verbs.ChangeBackground:
                     drawController.CycleBackgrounds();
                     break;
-                case SpeechRecognizer.Verbs.MazeOn:
+                case SpeechRecognizer.Verbs.ShowMaze:
+                    isMazeOn = true;
+                    drawController.showSeaweed(Seaweed_list);
                     Console.WriteLine("Swap background picture with picture that has the maze");
                     break;
 
-                case SpeechRecognizer.Verbs.MazeOff:
+                case SpeechRecognizer.Verbs.RemoveMaze:
+                    if (isMazeOn)
+                    {
+                        drawController.hideSeaweed(Seaweed_list);
+                        isMazeOn = false;
+                    }
                     Console.WriteLine("Swap background picture with picture that does not have the maze");
                     break;
 

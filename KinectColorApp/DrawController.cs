@@ -21,13 +21,11 @@ namespace KinectColorApp
 
 		public bool backgroundAlreadySet = true;
 
-        private double ColorChangeSpeed = 60.0; // How fast does the color change with depth? smaller number changes faster.
-
         public int shouldChangeColor = -1;
         int prevBackground = 0;
 
-        //string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
-        //string fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\nimo.png";
+        public bool isSeaweedShow = false;
+
         string fishPath = @"..\..\Resources\nimo.png";
 
         public Canvas drawingCanvas;
@@ -35,10 +33,12 @@ namespace KinectColorApp
         public Rectangle colorRect;
         public Image canvasImage;
 
-        // for debug
-        //public Image fish;
+        double last_x = 9999;
+        double last_y = 9999;
+
 
         Image[] buttons;
+        Image[] Seaweed_list;
 		public List<Background> backgrounds;
 		public Background background;
 
@@ -89,7 +89,7 @@ namespace KinectColorApp
             backgroundImage.Height = 900;
             backgroundImage.Width = 1367;
 			// And, in any case, clear screen:
-			ClearScreen();
+			//ClearScreen();
 
         }
 
@@ -98,8 +98,6 @@ namespace KinectColorApp
         {
             Console.WriteLine(Directory.GetCurrentDirectory());
             fishPath = @"..\..\Resources\" + fishName + ".png"; 
-            //fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\" + fishName + ".png";
-            //fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\" + fishName + ".png";
         }
 
 
@@ -140,11 +138,28 @@ namespace KinectColorApp
             //colorRect.Fill = gradientBrush;
         }
 
+        public bool isInSeaweedArea(double x, double y)
+        {
+            if (!isSeaweedShow)
+                return false;
+
+            foreach (Image i in Seaweed_list)
+            {
+                double top = Canvas.GetTop(i);
+                double left = Canvas.GetLeft(i);
+                if (y >=top + 60 && x >= left && y <= top + i.Height- 10 && x <= left + i.Width)
+                    return true;
+            }
+
+            return false;
+        }
+
+
+
         public void DrawFishes(List<Point> pointList, List<int> depthList)
         {
             ClearScreen();
-            double last_x = 0;
-            double last_y = 0;
+            
 
             for (int touchNum = 0; touchNum < depthList.Count; touchNum++)
             {
@@ -153,6 +168,10 @@ namespace KinectColorApp
 
                 if (Math.Abs(x - last_x) < 150 && Math.Abs(y - last_y) < 150)
                     continue;
+
+                if (isInSeaweedArea(x, y))
+                    continue;
+
                 last_x = x;
                 last_y = y;
                 int depth = depthList[touchNum];
@@ -175,6 +194,26 @@ namespace KinectColorApp
             }
         }
 
+
+        public void showSeaweed(Image[] in_seaweed_list)
+        {
+            isSeaweedShow = true;
+            Seaweed_list = in_seaweed_list;
+            foreach(Image i in in_seaweed_list)
+            {
+                i.Visibility = Visibility.Visible;
+            }
+        }
+
+        public void hideSeaweed(Image[] seaweed_list)
+        {
+            isSeaweedShow = false;
+            Seaweed_list = new Image[]{};
+            foreach (Image i in seaweed_list)
+            {
+                i.Visibility = Visibility.Hidden;
+            }
+        }
 
         /*
         public void DrawEllipseAtPoint(double x, double y, int depth)
@@ -265,16 +304,6 @@ namespace KinectColorApp
                     drawingCanvas.Children.Remove(shape);
                 }
             }
-
-            /*
-            foreach (var shape in shapes)
-            {
-                if (shape.Name != "red_selector" && shape.Name != "blue_selector" && shape.Name != "green_selector" && shape.Name != "eraser_selector" && shape.Name != "background_selector" && shape.Name != "refresh_selector")
-                {
-                    drawingCanvas.Children.Remove(shape);
-                }
-            }
-            */
 
             canvasImage.Source = null;
         }
