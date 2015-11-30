@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Media;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,19 +15,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Kinect;
+//using Microsoft.Kinect.Toolkit;
+using Microsoft.Samples.Kinect.WpfViewers;
 using System.Threading;
 using System.Windows.Threading;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using FishGame.Speech;
 
 namespace KinectColorApp
 {
     enum Colors {Red, Green, Blue, White};
     //enum Backgrounds {Farm, Pokemon, Turtle, Planets, Pony, Car, AlreadySet};
+    
 
     public partial class MainWindow : Window
     {
+        private SpeechRecognizer mySpeechRecognizer; 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -60,28 +70,38 @@ namespace KinectColorApp
             {
                 this.sensor = KinectSensor.KinectSensors[0];
 
-				if (this.sensor.Status == KinectStatus.Connected)
-				{
-					Image[] codes = new Image[] { _0_code, _1_code, _2_code, _3_code, _4_code, };
-					foreach (Image i in codes)
-					{
-						i.Visibility = Visibility.Hidden;
-					}
+                if (this.sensor.Status == KinectStatus.Connected)
+                {
+
+
+                    Image[] codes = new Image[] { _0_code, _1_code, _2_code, _3_code, _4_code, };
+                    foreach (Image i in codes)
+                    {
+                        i.Visibility = Visibility.Hidden;
+                    }
                     _0_code.Visibility = Visibility.Visible;
-					calController = new CalibrationController(sensor, kinectController, drawingCanvas, codes, image1);
-					calController.CalibrationDidComplete += new CalibrationController.calibrationDidCompleteHandler(calibrationCompleted);
-					//sensor.AllFramesReady += kinectController.SensorAllFramesReady;
-					//calibrationCompleted();
-                    
+                    calController = new CalibrationController(sensor, kinectController, drawingCanvas, codes, image1);
+                    calController.CalibrationDidComplete += new CalibrationController.calibrationDidCompleteHandler(calibrationCompleted);
+                    //sensor.AllFramesReady += kinectController.SensorAllFramesReady;
+                    //calibrationCompleted();
+
                     this.sensor.AllFramesReady += calController.DisplayColorImageAllFramesReady;
-					this.sensor.ColorStream.Enable();
-					this.sensor.DepthStream.Enable();
+                    this.sensor.ColorStream.Enable();
+                    this.sensor.DepthStream.Enable();
                     //this.sensor.ColorStream.CameraSettings.Contrast = 2.0;
 
                     Console.WriteLine("abc");
 
                     this.sensor.Start();
-				}
+
+                    this.mySpeechRecognizer = SpeechRecognizer.Create();
+
+                    if (null != this.mySpeechRecognizer)
+                    {
+                        this.mySpeechRecognizer.SaidSomething += this.RecognizerSaidSomething;
+                        this.mySpeechRecognizer.Start(sensor.AudioSource);
+                    }
+                }
             }
 
             this.KeyDown += new KeyEventHandler(OnKeyDown);
@@ -97,7 +117,7 @@ namespace KinectColorApp
                 i.Visibility = Visibility.Hidden;
             }
 
-            
+
         }
 
         private void Window_Size_Did_Change(object sender, RoutedEventArgs e)
@@ -240,6 +260,27 @@ namespace KinectColorApp
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             StopKinect(this.sensor);
+        }
+
+        private void RecognizerSaidSomething(object sender, SpeechRecognizer.SaidSomethingEventArgs e)
+        {
+            switch (e.Verb)
+            {
+                case SpeechRecognizer.Verbs.ChangeBackground:
+                    drawController.CycleBackgrounds();
+                    break;
+                case SpeechRecognizer.Verbs.MazeOn:
+                    Console.WriteLine("Swap background picture with picture that has the maze");
+                    break;
+
+                case SpeechRecognizer.Verbs.MazeOff:
+                    Console.WriteLine("Swap background picture with picture that does not have the maze");
+                    break;
+
+                case SpeechRecognizer.Verbs.Reset:
+                    drawController.ClearScreen();
+                    break;
+            }
         }
     }
 }

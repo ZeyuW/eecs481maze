@@ -26,8 +26,10 @@ namespace KinectColorApp
         public int shouldChangeColor = -1;
         int prevBackground = 0;
 
-        string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
-        
+        //string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
+        //string fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\nimo.png";
+        string fishPath = @"..\..\Resources\nimo.png";
+
         public Canvas drawingCanvas;
         public Image backgroundImage;
         public Rectangle colorRect;
@@ -94,8 +96,10 @@ namespace KinectColorApp
 
         public void changeFishImage(string fishName)
         {
-            //fishPath = @"Resources\" + fishName + ".png"; 
-            fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\" + fishName + ".png";
+            Console.WriteLine(Directory.GetCurrentDirectory());
+            fishPath = @"..\..\Resources\" + fishName + ".png"; 
+            //fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\" + fishName + ".png";
+            //fishPath = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\" + fishName + ".png";
         }
 
 
@@ -155,7 +159,7 @@ namespace KinectColorApp
 
                 Image fish = new Image();
                 
-                Uri fishUri = new Uri(fishPath);
+                Uri fishUri = new Uri(fishPath, UriKind.Relative);
                 BitmapImage bi = new BitmapImage(fishUri);
                 fish.Source = bi;
                 fish.Name = "fish";
@@ -318,9 +322,11 @@ namespace KinectColorApp
 
 		public void findAndInitializeBackgrounds()
 		{
-			string dropBox = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\bg";
+            string dropBox = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg";
+            //string dropBox = @"..\..\Resources\bg\";
+            //Console.WriteLine(Directory.GetCurrentDirectory());
 
-			string[] fileEntries = Directory.GetFiles(dropBox);
+            string[] fileEntries = Directory.GetFiles(dropBox);
 			foreach(string file in fileEntries)
 			{ 
 				if(file.Substring(file.Length - 4, 4).Equals(".png"))

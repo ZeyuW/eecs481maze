@@ -98,7 +98,7 @@ namespace KinectColorApp
             List<int> touchIndexes = new List<int>();
             List<int> touchDepths = new List<int>();
 
-            Console.WriteLine(minDepthIndex + " " + depthFrame.Width);
+            // Console.WriteLine(minDepthIndex + " " + depthFrame.Width);
 
             if (!this.hasSetDepthThreshold)
             {

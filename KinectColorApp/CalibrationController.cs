@@ -159,7 +159,7 @@ namespace KinectColorApp
                 */
                     if ((threshold - depth) > 150 && (threshold - depth) < 350)
                 {
-                    Console.WriteLine(threshold - depth);
+                    //Console.WriteLine(threshold - depth);
                     // Get the point in the depth frame at the center of the barcode
                     double x_kinect = (depthIndex % depthFrame.Width);
                     double y_kinect = (depthIndex / depthFrame.Width);

@@ -98,3 +98,4 @@ C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\obj\Debug\KinectColo
 C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.application
 C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.exe
 C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\obj\Debug\KinectColorApp.pdb
+C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\bin\Debug\Microsoft.Speech.dll
