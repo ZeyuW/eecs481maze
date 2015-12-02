@@ -25,9 +25,9 @@
             <Image x:Name="_2_code" Height="225" Canvas.Left="236" Canvas.Top="151" Width="225" Source="Resources/2_code.png"/>
             <Image x:Name="_3_code" Height="225" Canvas.Left="425" Canvas.Top="8" Width="225" Source="Resources/3_code.png"/>
             <Image x:Name="_4_code" Height="225" Canvas.Left="415" Canvas.Top="263" Width="225" Source="Resources/4_code.png"/>
-            <Label x:Name="calibrationLabel" Content="Welcome! Click the mouse to calibrate." HorizontalContentAlignment="Center"  VerticalAlignment="Center" Height="47" FontFamily="Segoe Marker" FontSize="30" Canvas.Left="125" Canvas.Top="373" HorizontalAlignment="Center" Panel.ZIndex="12"/>
+            <Label x:Name="calibrationLabel" Content="Welcome! Click the mouse to calibrate." HorizontalContentAlignment="Center"  VerticalAlignment="Center" Height="47" FontFamily="Segoe Marker" FontSize="30" Canvas.Left="125" Canvas.Top="373" HorizontalAlignment="Center" Panel.ZIndex="100"/>
 
-            <Image x:Name="Seaweed" Width="500" Canvas.Top ="92" Height="141" Source="Resources/stones/seaweed_and_stone2.png" Canvas.Left="0" Panel.ZIndex="100"/>
+            <Image x:Name="Seaweed" Width="500" Canvas.Top ="92" Height="141" Source="Resources/stones/seaweed_and_stone2.png" Canvas.Left="0" Panel.ZIndex="10"/>
 
             <!--
             <Ellipse x:Name="red_selector" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="435" Panel.ZIndex="6" StrokeThickness="3" Stroke="#FFFF3E00">

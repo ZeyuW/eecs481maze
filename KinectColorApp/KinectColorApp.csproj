@@ -166,9 +166,9 @@
     <Resource Include="Resources\6_code.png" />
     <Resource Include="Resources\7_code.png" />
     <Resource Include="Resources\8_code.png" />
-    <Resource Include="Resources\bg\aquatic_background.jpg" />
-    <Resource Include="Resources\bg\aquatic_background.png" />
     <Resource Include="Resources\bg\bg2.png" />
+    <Resource Include="Resources\bg\aquatic_background.png" />
+    <Resource Include="Resources\bg\fireworks.gif" />
     <Content Include="Resources\blue_SFX.wav" />
     <Content Include="Resources\change_background_SFX.wav" />
     <Content Include="Resources\eraser_SFX.wav" />

@@ -82,11 +82,13 @@ namespace KinectColorApp
                         i.Visibility = Visibility.Hidden;
                     }
 
+                    
                     Seaweed_list = new Image[] { Seaweed };
                     foreach (Image ii in Seaweed_list)
                     {
                         ii.Visibility = Visibility.Hidden;
                     }
+                    
 
                     _0_code.Visibility = Visibility.Visible;
                     calController = new CalibrationController(sensor, kinectController, drawingCanvas, codes, image1);

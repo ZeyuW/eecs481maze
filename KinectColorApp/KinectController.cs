@@ -130,7 +130,7 @@ namespace KinectColorApp
                 if (depth == -1 || depth == 0) continue;
                 
                
-                if (DepthThreshold - depth > 60 && this.hasSetDepthThreshold )
+                if (DepthThreshold - depth > 50 && this.hasSetDepthThreshold )
                 {
                     int touchIndexesSize = touchIndexes.Count;
                     int cur_x = depthIndex % depthFrame.Width;

@@ -26,6 +26,9 @@ namespace KinectColorApp
 
         public bool isSeaweedShow = false;
 
+        double last_x = 9999;
+        double last_y = 9999;
+
         string fishPath = @"..\..\Resources\nimo.png";
 
         public Canvas drawingCanvas;
@@ -33,14 +36,15 @@ namespace KinectColorApp
         public Rectangle colorRect;
         public Image canvasImage;
 
-        double last_x = 9999;
-        double last_y = 9999;
 
-
+        List<Point> actual_draw_points = new List<Point>();
+        List<int> actual_draw_depths = new List<int>();
         Image[] buttons;
         Image[] Seaweed_list;
 		public List<Background> backgrounds;
 		public Background background;
+
+       
 
         public DrawController(Canvas canvas, Image image, Rectangle rect, Image canvasImage, Image[] buttons)
         {
@@ -83,14 +87,18 @@ namespace KinectColorApp
         {
 			Console.WriteLine("Changing background to " + new_background.uri);
             
-
+            
 			backgroundAlreadySet = true;
 			backgroundImage.Source = new BitmapImage(new_background.uri);
+            /*
+            string tmp_uri = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg\fireworks.gif";
+            Uri gifUri = new Uri(tmp_uri);
+            GifBitmapDecoder decoder = new GifBitmapDecoder(gifUri, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+
+            backgroundImage.Source = decoder.Frames[0];
+            */
             backgroundImage.Height = 900;
             backgroundImage.Width = 1367;
-			// And, in any case, clear screen:
-			//ClearScreen();
-
         }
 
 
@@ -147,7 +155,7 @@ namespace KinectColorApp
             {
                 double top = Canvas.GetTop(i);
                 double left = Canvas.GetLeft(i);
-                if (y >=top + 60 && x >= left && y <= top + i.Height- 10 && x <= left + i.Width)
+                if (y >=top + 50 && x >= left && y <= top + i.Height && x <= left + i.Width)
                     return true;
             }
 
@@ -159,7 +167,10 @@ namespace KinectColorApp
         public void DrawFishes(List<Point> pointList, List<int> depthList)
         {
             ClearScreen();
-            
+            last_x = 9999;
+            last_y = 9999;
+            List<Point> temp_draw_points = new List<Point>();
+            List<int> temp_draw_depths = new List<int>();
 
             for (int touchNum = 0; touchNum < depthList.Count; touchNum++)
             {
@@ -169,13 +180,32 @@ namespace KinectColorApp
                 if (Math.Abs(x - last_x) < 150 && Math.Abs(y - last_y) < 150)
                     continue;
 
+                int depth = depthList[touchNum];
+
                 if (isInSeaweedArea(x, y))
-                    continue;
+                {
+                    bool draw_last_point = false;
+                    for (int i = 0; i < actual_draw_points.Count; i++)
+                    {
+                        if (Math.Abs(x - actual_draw_points[i].X) < 30 && Math.Abs(y - actual_draw_points[i].Y) < 30)
+                        {
+                            x = actual_draw_points[i].X;
+                            y = actual_draw_points[i].Y;
+                            depth = actual_draw_depths[i];
+                            draw_last_point = true;
+                        }
+                    }
+                    if (!draw_last_point)
+                        continue;
+                }
+                
+                temp_draw_points.Add(new Point(x, y));
+                temp_draw_depths.Add(depth);
 
                 last_x = x;
                 last_y = y;
-                int depth = depthList[touchNum];
-
+                
+            
                 Image fish = new Image();
                 
                 Uri fishUri = new Uri(fishPath, UriKind.Relative);
@@ -188,10 +218,14 @@ namespace KinectColorApp
 
                 Canvas.SetTop(fish, y - fish.Height / 2);
                 Canvas.SetLeft(fish, x - fish.Width / 2);
-                Canvas.SetZIndex(fish, 2);
+                Canvas.SetZIndex(fish, 10);
 
                 drawingCanvas.Children.Add(fish);
             }
+            actual_draw_points.Clear();
+            actual_draw_points = temp_draw_points;
+            actual_draw_depths.Clear();
+            actual_draw_depths = temp_draw_depths;
         }
 
 
@@ -348,7 +382,7 @@ namespace KinectColorApp
             }
         }
         
-
+        
 		public void findAndInitializeBackgrounds()
 		{
             //string dropBox = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg";
