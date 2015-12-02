@@ -351,8 +351,8 @@ namespace KinectColorApp
 
 		public void findAndInitializeBackgrounds()
 		{
-            string dropBox = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg";
-            //string dropBox = @"..\..\Resources\bg\";
+            //string dropBox = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg";
+            string dropBox = @"..\..\Resources\bg";
             //Console.WriteLine(Directory.GetCurrentDirectory());
 
             string[] fileEntries = Directory.GetFiles(dropBox);
@@ -377,7 +377,7 @@ namespace KinectColorApp
 
 		public Background(string inUriString)
 		{
-				uri = new Uri(inUriString);
+				uri = new Uri(inUriString, UriKind.Relative);
 		}
 	}
 }
