@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Windows;
 
+
 namespace KinectColorApp
 {
 
@@ -29,7 +30,9 @@ namespace KinectColorApp
         double last_x = 9999;
         double last_y = 9999;
 
-        string fishPath = @"..\..\Resources\nimo.png";
+        
+        string fishName = "nimo";
+       // string fishPath = @"..\..\Resources\nimo.png";
 
         public Canvas drawingCanvas;
         public Image backgroundImage;
@@ -39,6 +42,7 @@ namespace KinectColorApp
 
         List<Point> actual_draw_points = new List<Point>();
         List<int> actual_draw_depths = new List<int>();
+        List<string> actual_draw_fishname = new List<string>();
         Image[] buttons;
         Image[] Seaweed_list;
 		public List<Background> backgrounds;
@@ -102,10 +106,10 @@ namespace KinectColorApp
         }
 
 
-        public void changeFishImage(string fishName)
+        public void changeFishImage(string in_fishName)
         {
-            Console.WriteLine(Directory.GetCurrentDirectory());
-            fishPath = @"..\..\Resources\" + fishName + ".png"; 
+            fishName = in_fishName;
+            //fishPath = @"..\..\Resources\" + fishName + ".png"; 
         }
 
 
@@ -164,6 +168,9 @@ namespace KinectColorApp
 
 
 
+
+
+
         public void DrawFishes(List<Point> pointList, List<int> depthList)
         {
             ClearScreen();
@@ -171,13 +178,14 @@ namespace KinectColorApp
             last_y = 9999;
             List<Point> temp_draw_points = new List<Point>();
             List<int> temp_draw_depths = new List<int>();
+            List<string> temp_draw_fishname = new List<string>();
 
             for (int touchNum = 0; touchNum < depthList.Count; touchNum++)
             {
                 double x = pointList[touchNum].X;
                 double y = pointList[touchNum].Y;
 
-                if (Math.Abs(x - last_x) < 150 && Math.Abs(y - last_y) < 150)
+                if (Math.Abs(x - last_x) < 100 && Math.Abs(y - last_y) < 100)
                     continue;
 
                 int depth = depthList[touchNum];
@@ -198,16 +206,48 @@ namespace KinectColorApp
                     if (!draw_last_point)
                         continue;
                 }
-                
+
+                // The loop will decide fish direction
+                string tmp_fishName = fishName;
+                double minDist = 999999;
+                int point_index = 0;
+                for (int k = 0; k < actual_draw_points.Count; k++)
+                {
+                    // if within the range: the same fish
+
+                    //if (Math.Abs(x - actual_draw_points[k].X) < 30 && Math.Abs(y - actual_draw_points[k].Y) < 30)
+                    if ((x - actual_draw_points[k].X) * (x - actual_draw_points[k].X) + (y - actual_draw_points[k].Y) * (y - actual_draw_points[k].Y) < minDist)
+                    {
+                        minDist = (x - actual_draw_points[k].X) * (x - actual_draw_points[k].X) + (y - actual_draw_points[k].Y) * (y - actual_draw_points[k].Y);
+                        point_index = k;
+
+                    }
+
+                }
+                if (actual_draw_points.Count != 0)
+                {
+                    tmp_fishName = actual_draw_fishname[point_index];
+                    if (x - actual_draw_points[point_index].X > 10 && tmp_fishName.Length <= 6)
+                    {
+                        tmp_fishName = tmp_fishName + "_flipped";
+                    }
+                    else if (x - actual_draw_points[point_index].X < -10 && tmp_fishName.Length > 6)
+                    {
+                        tmp_fishName = fishName;
+                    }
+                }
+                   
+
                 temp_draw_points.Add(new Point(x, y));
                 temp_draw_depths.Add(depth);
+                temp_draw_fishname.Add(tmp_fishName);
 
                 last_x = x;
                 last_y = y;
                 
             
                 Image fish = new Image();
-                
+                string fishPath = @"..\..\Resources\" + tmp_fishName + ".png";
                 Uri fishUri = new Uri(fishPath, UriKind.Relative);
                 BitmapImage bi = new BitmapImage(fishUri);
                 fish.Source = bi;
@@ -226,6 +266,8 @@ namespace KinectColorApp
             actual_draw_points = temp_draw_points;
             actual_draw_depths.Clear();
             actual_draw_depths = temp_draw_depths;
+            actual_draw_fishname.Clear();
+            actual_draw_fishname = temp_draw_fishname;
         }
 
 

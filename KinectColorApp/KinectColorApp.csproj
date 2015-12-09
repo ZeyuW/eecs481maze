@@ -175,9 +175,13 @@
     <Resource Include="Resources\fish_a.png" />
     <Resource Include="Resources\fish_b.png" />
     <Resource Include="Resources\fish_c.png" />
+    <Resource Include="Resources\fish_a_flipped.png" />
+    <Resource Include="Resources\fish_b_flipped.png" />
+    <Resource Include="Resources\fish_c_flipped.png" />
     <Content Include="Resources\green_SFX.wav" />
     <Resource Include="Resources\plus.jpg" />
     <Resource Include="Resources\nimo.png" />
+    <Resource Include="Resources\nimo_flipped.png" />
     <Content Include="Resources\red_SFX.wav" />
   </ItemGroup>
   <ItemGroup>

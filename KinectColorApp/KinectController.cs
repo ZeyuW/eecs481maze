@@ -13,6 +13,10 @@ using System.Windows.Media.Effects;
 
 namespace KinectColorApp
 {
+
+    
+
+
     class KinectController
     {
         private Image debugImage;
@@ -24,6 +28,8 @@ namespace KinectColorApp
         private bool hasSetDepthThreshold = false;
         private int DepthThreshold = 9000000;
         const int TextileSpacing = 5; // How deep do we have to push in to start drawing?
+
+        List<Point> lastFrameDrawnPoints = new List<Point>();
 
         // Variables used for calibration
         public double[] calibration_coefficients;
@@ -119,6 +125,36 @@ namespace KinectColorApp
                 this.DepthThreshold = temp_minDepth - TextileSpacing;
                 this.hasSetDepthThreshold = true;
             }
+
+            
+            for (int last_point_idx = 0; last_point_idx < lastFrameDrawnPoints.Count; last_point_idx++)
+            {
+                double last_x_kinect = lastFrameDrawnPoints[last_point_idx].X;
+                double last_y_kinect = lastFrameDrawnPoints[last_point_idx].Y;
+                
+                int tmp_max_depth = 0;
+                bool if_found = false;
+                int last_index = 0;
+                for (double start_x_kinect = last_x_kinect - 40; start_x_kinect <= last_x_kinect + 40; start_x_kinect++)
+                {
+                    for (double start_y_kinect = last_y_kinect - 40; start_y_kinect <= last_y_kinect + 40; start_y_kinect++)
+                    {
+                        last_index = (int)(last_y_kinect * depthFrame.Width + last_x_kinect);
+                        int tmp_depth = rawDepthData[last_index] >> DepthImageFrame.PlayerIndexBitmaskWidth;
+                        if (tmp_depth > tmp_max_depth && DepthThreshold - tmp_depth > 50)
+                        {
+                            if_found = true;
+                            tmp_max_depth = tmp_depth;
+                        }
+                    }
+                }
+                if (if_found)
+                {
+                    touchIndexes.Add(last_index);
+                    touchDepths.Add(tmp_max_depth);
+                }
+
+            }
            
 
 
@@ -130,16 +166,12 @@ namespace KinectColorApp
                 if (depth == -1 || depth == 0) continue;
                 
                
-                if (DepthThreshold - depth > 50 && this.hasSetDepthThreshold )
+                if (DepthThreshold - depth > 30 && this.hasSetDepthThreshold )
                 {
                     int touchIndexesSize = touchIndexes.Count;
                     int cur_x = depthIndex % depthFrame.Width;
                     int cur_y = depthIndex / depthFrame.Width;
-                    if (touchIndexesSize == 0)
-                    {
-                        touchIndexes.Add(depthIndex);
-                        touchDepths.Add(depth);
-                    }
+            
 
                     bool is_add = true;
                     for (int touchNum = 0; touchNum < touchIndexesSize; touchNum++)
@@ -193,6 +225,7 @@ namespace KinectColorApp
         {
             List<int> depthList = new List<int>();
             List<Point> pointList = new List<Point>();
+            List<Point> kinectPointList = new List<Point>();
             
             for (int i = 0; i < touchIndexes.Count; i++)
             {
@@ -203,7 +236,7 @@ namespace KinectColorApp
                 double y = x_kinect * calibration_coefficients[3] + y_kinect * calibration_coefficients[4] + calibration_coefficients[5] + 10;
 
 
-                
+                bool is_button = false;
                 foreach (Image image in buttons)
                 {
 
@@ -211,7 +244,7 @@ namespace KinectColorApp
                     double left = Canvas.GetLeft(image);
                     if (y >= top && x >= left && y <= top + image.Height && x <= left + image.Width)
                     {
-                        
+                        is_button = true;
                         foreach (Image tmp in buttons)
                         {
                             tmp.Width = 60;
@@ -245,7 +278,13 @@ namespace KinectColorApp
                 Point point = new Point(x, y);
                 depthList.Add(DepthThreshold - touchDepths[i]);
                 pointList.Add(point);
+
+                if (!is_button)
+                {
+                    kinectPointList.Add(new Point(x_kinect, y_kinect));
+                }
             }
+            lastFrameDrawnPoints = kinectPointList;
             drawController.DrawFishes(pointList, depthList);
         }
 

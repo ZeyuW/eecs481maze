@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KinectColorApp.exe" size="13456800">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KinectColorApp.exe" size="13923232">
       <assemblyIdentity name="KinectColorApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ZIVJK9H9QD9LHlJ4uXuIbY41X8NcTdQztGdqLnS703A=</dsig:DigestValue>
+        <dsig:DigestValue>DdqYWeDPjS5xDObtYCo8qMPLgDd8L53fC6De7TL7bnQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -73,7 +73,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>h6l2Ilxf5aQxR6at/PEKWj0Jq3Uce0vMi/wU8tGywxM=</dsig:DigestValue>
+        <dsig:DigestValue>8+IWIgzauobaa0WuPx4CGFbVqbS+uJB3EGh1asfEaVo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
