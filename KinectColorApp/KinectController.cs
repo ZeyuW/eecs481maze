@@ -13,10 +13,6 @@ using System.Windows.Media.Effects;
 
 namespace KinectColorApp
 {
-
-    
-
-
     class KinectController
     {
         private Image debugImage;
@@ -26,7 +22,7 @@ namespace KinectColorApp
 
         DateTime last_background_change = DateTime.Now;
         private bool hasSetDepthThreshold = false;
-        private int DepthThreshold = 9000000;
+        private int DepthThreshold = int.MaxValue;
         const int TextileSpacing = 5; // How deep do we have to push in to start drawing?
 
         List<Point> lastFrameDrawnPoints = new List<Point>();
@@ -67,12 +63,7 @@ namespace KinectColorApp
             {
                 drawController.ChangeBackground(drawController.background);
             }
-            
-            // Check if we need to change color
-            if (drawController.shouldChangeColor != -1)
-            {
-                drawController.ChangeColor((Colors)drawController.shouldChangeColor);
-            }
+
 
             using (DepthImageFrame depthFrame = e.OpenDepthImageFrame())
             {
@@ -85,7 +76,7 @@ namespace KinectColorApp
 
         #region Getting textile touches
 
-        bool gotTouch = false;
+        
 
         private void ParseDepthFrame(DepthImageFrame depthFrame)
         {
@@ -103,9 +94,7 @@ namespace KinectColorApp
             // a vector of touchIndexes to record locations of multi-touch
             List<int> touchIndexes = new List<int>();
             List<int> touchDepths = new List<int>();
-
-            // Console.WriteLine(minDepthIndex + " " + depthFrame.Width);
-
+            
             if (!this.hasSetDepthThreshold)
             {
                 int temp_minDepth = maxDepthIndex;
@@ -166,7 +155,7 @@ namespace KinectColorApp
                 if (depth == -1 || depth == 0) continue;
                 
                
-                if (DepthThreshold - depth > 30 && this.hasSetDepthThreshold )
+                if (DepthThreshold - depth > 20 && this.hasSetDepthThreshold )
                 {
                     int touchIndexesSize = touchIndexes.Count;
                     int cur_x = depthIndex % depthFrame.Width;
@@ -202,24 +191,65 @@ namespace KinectColorApp
             // Draw if a touch was found
             if (touchIndexes.Count > 0)
             {
-                soundController.StartMusic();
-
                 prepareDrawFish(depthFrame, touchIndexes, touchDepths);
-                gotTouch = true;
                 
             }
-            else
+           
+        }
+
+
+        public void resetFishSize()
+        {
+            foreach (Image tmp in buttons)
             {
-                //drawController.ClearScreen();
-                /*
-                if (gotTouch == true)
+                if (tmp.Name == "fish_nimo")
                 {
-                    soundController.StopMusic();
+                    tmp.Height = 35;
+                    tmp.Width = 60;
                 }
-                gotTouch = false;
-                */
+                else if (tmp.Name == "fish_a")
+                {
+                    tmp.Height = 50;
+                    tmp.Width = 50;
+                }
+                else if (tmp.Name == "fish_b")
+                {
+                    tmp.Height = 55;
+                    tmp.Width = 44;
+                }
+                else if (tmp.Name == "fish_c")
+                {
+                    tmp.Height = 47;
+                    tmp.Width = 40;
+                }
             }
         }
+
+
+        public void increaseFishSize(Image in_fish)
+        {
+            if (in_fish.Name == "fish_nimo")
+            {
+                in_fish.Height = 53;
+                in_fish.Width = 90;
+            }
+            else if (in_fish.Name == "fish_a")
+            {
+                in_fish.Height = 75;
+                in_fish.Width = 75;
+            }
+            else if (in_fish.Name == "fish_b")
+            {
+                in_fish.Height = 83;
+                in_fish.Width = 66;
+            }
+            else if (in_fish.Name == "fish_c")
+            {
+                in_fish.Height = 71;
+                in_fish.Width = 60;
+            }
+        }
+
 
         private void prepareDrawFish(DepthImageFrame depthFrame, List<int> touchIndexes, List<int> touchDepths)
         {
@@ -245,14 +275,9 @@ namespace KinectColorApp
                     if (y >= top && x >= left && y <= top + image.Height && x <= left + image.Width)
                     {
                         is_button = true;
-                        foreach (Image tmp in buttons)
-                        {
-                            tmp.Width = 60;
-                            tmp.Height = 30;
-                        }
 
-                        image.Width = 90;
-                        image.Height = 45;
+                        resetFishSize();
+                        increaseFishSize(image);
 
                         if (image.Name == "fish_nimo")
                         {
@@ -289,89 +314,7 @@ namespace KinectColorApp
         }
 
 
-        /*
-        private void DrawPoint(DepthImageFrame depthFrame, int depthIndex, int minDepth)
-        {
-            double x_kinect = (depthIndex % depthFrame.Width);
-            double y_kinect = (depthIndex / depthFrame.Width);
-
-            double x = x_kinect * calibration_coefficients[0] + y_kinect * calibration_coefficients[1] + calibration_coefficients[2] + 3;
-            double y = x_kinect * calibration_coefficients[3] + y_kinect * calibration_coefficients[4] + calibration_coefficients[5] + 10;
-            
-            foreach (Ellipse ellipse in buttons)
-            {
-                double top = Canvas.GetTop(ellipse);
-                double left = Canvas.GetLeft(ellipse);
-                
-                if (y >= top && x >= left && y <= top + ellipse.Height && x <= left + ellipse.Width)
-                {
-                    DropShadowEffect glowEffect = new DropShadowEffect();
-                    glowEffect.ShadowDepth = 0;
-                    glowEffect.Opacity = 1;
-                    glowEffect.BlurRadius = 30;
-
-                    if (ellipse.Name != "refresh_selector" && ellipse.Name != "background_selector")
-                    {
-                        foreach (Ellipse el in buttons)
-                        {
-                            if (el.Name != "refresh_selector" && el.Name != "background_selector")
-                            {
-                                el.Fill.Opacity = 0.3;
-                                el.Effect = null;
-                            }
-                        }
-                    }
-
-                    // Use this button
-                    
-                    if (ellipse.Name == "red_selector")
-                    {
-                        ellipse.Fill.Opacity = 1;
-                        glowEffect.Color = Color.FromArgb(255, 255, 44, 44);
-                        ellipse.Effect = glowEffect;
-                        drawController.ChangeColor(Colors.Red);
-                    }
-                    else if (ellipse.Name == "green_selector")
-                    {
-                        ellipse.Fill.Opacity = 1;
-                        glowEffect.Color = Color.FromArgb(255, 53, 255, 53);
-                        ellipse.Effect = glowEffect;
-                        drawController.ChangeColor(Colors.Green);
-                    }
-                    else if (ellipse.Name == "blue_selector")
-                    {
-                        ellipse.Fill.Opacity = 1;
-                        glowEffect.Color = Color.FromArgb(255, 115, 78, 255);
-                        ellipse.Effect = glowEffect;
-                        drawController.ChangeColor(Colors.Blue);
-                    } 
-                    else if (ellipse.Name == "eraser_selector")
-                    {
-                        ellipse.Fill.Opacity = 1;
-                        glowEffect.Color = Color.FromArgb(255, 255, 255, 255);
-                        ellipse.Effect = glowEffect;
-                        drawController.ChangeColor(Colors.White);
-                    }
-                    else if (ellipse.Name == "background_selector")
-                    {
-                        TimeSpan interval = DateTime.Now - last_background_change;
-                        if (interval.Seconds >= 0.5)
-                        {
-                            drawController.CycleBackgrounds();
-                            last_background_change = DateTime.Now;
-                        }
-                    }
-                    else if (ellipse.Name == "refresh_selector")
-                    {
-                        drawController.ClearScreen();
-                    }
-
-                    return;
-                }
-            }
-            drawController.DrawEllipseAtPoint(x, y, (DepthThreshold - minDepth));
-        }
-        */
+        
 
         #endregion
 

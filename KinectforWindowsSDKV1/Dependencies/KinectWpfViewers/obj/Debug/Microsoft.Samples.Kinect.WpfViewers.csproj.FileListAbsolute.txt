@@ -180,4 +180,3 @@ C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectforWindowsSDKV1\Dependencies\
 C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectforWindowsSDKV1\Dependencies\KinectWpfViewers\obj\Debug\Microsoft.Samples.Kinect.WpfViewers.csproj.GenerateResource.Cache
 C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectforWindowsSDKV1\Dependencies\KinectWpfViewers\obj\Debug\Microsoft.Samples.Kinect.WpfViewers.dll
 C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectforWindowsSDKV1\Dependencies\KinectWpfViewers\obj\Debug\Microsoft.Samples.Kinect.WpfViewers.pdb
-C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectforWindowsSDKV1\Dependencies\KinectWpfViewers\obj\Debug\Microsoft.Samples.Kinect.WpfViewers.csprojResolveAssemblyReference.cache

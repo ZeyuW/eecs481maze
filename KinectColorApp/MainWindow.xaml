@@ -18,7 +18,7 @@
         <Canvas x:Name="drawingCanvas" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="640" Grid.ColumnSpan="4" Background="White">
             <Image x:Name="backgroundImage" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="600" Canvas.Top="20" Canvas.Left="20"/>
             <Rectangle x:Name="drawBorder" Height="565" Stroke="Black" Width="724" StrokeThickness="55" Panel.ZIndex="5" Canvas.Left="-41" Canvas.Top="-27"/>
-            <Rectangle x:Name="colorRect" StrokeThickness="20" Fill="Red" Height="20" Canvas.Top="493" Width="642"/>
+            <!--<Rectangle x:Name="colorRect" StrokeThickness="20" Fill="Red" Height="20" Canvas.Top="493" Width="642"/>-->
             <Image x:Name="image1" HorizontalAlignment="Left" Height="480" VerticalAlignment="Top" Width="640"/>
             <Image x:Name="_0_code" Height="224" Canvas.Top="20" Width="225" Source="Resources/0_code.png" Canvas.Left="20"/>
             <Image x:Name="_1_code" Height="225" Canvas.Left="11" Canvas.Top="258" Width="225" Source="Resources/1_code.png"/>
@@ -27,75 +27,24 @@
             <Image x:Name="_4_code" Height="225" Canvas.Left="415" Canvas.Top="263" Width="225" Source="Resources/4_code.png"/>
             <Label x:Name="calibrationLabel" Content="Welcome! Click the mouse to calibrate." HorizontalContentAlignment="Center"  VerticalAlignment="Center" Height="47" FontFamily="Segoe Marker" FontSize="30" Canvas.Left="125" Canvas.Top="373" HorizontalAlignment="Center" Panel.ZIndex="100"/>
 
-            <Image x:Name="Seaweed" Width="500" Canvas.Top ="92" Height="141" Source="Resources/stones/seaweed_and_stone2.png" Canvas.Left="0" Panel.ZIndex="10"/>
-
-            <!--
-            <Ellipse x:Name="red_selector" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="435" Panel.ZIndex="6" StrokeThickness="3" Stroke="#FFFF3E00">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="Red" Offset="0"/>
-                        <GradientStop Color="#4CFD9200" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            -->
-
-            <Image x:Name="fish_nimo"  Height="45px" Canvas.Left="600" Canvas.Top="435" Width="90px" Panel.ZIndex="100" Source="Resources/nimo.png" >
-            </Image>
-
-            <!--
-            <Ellipse x:Name="green_selector" HorizontalAlignment="Left" Height="48" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="368" Panel.ZIndex="6" Stroke="#FF32FF00" StrokeThickness="3">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#FF00FF3C" Offset="0"/>
-                        <GradientStop Color="#4CFFF800" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            -->
-            <Image x:Name="fish_a" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Canvas.Left="602" Canvas.Top="368" Width="60" Panel.ZIndex="6" Source="Resources/fish_a.png"/>
-
-            <!--
-            <Ellipse x:Name="blue_selector" HorizontalAlignment="Left" Height="47" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="303" Panel.ZIndex="6" Stroke="#FF2400FF" StrokeThickness="3">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="#FF0001FF" Offset="0"/>
-                        <GradientStop Color="#4CCA00FF" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            -->
-            <Image x:Name="fish_b" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Canvas.Left="602" Canvas.Top="303" Width="60" Panel.ZIndex="6" Source="Resources/fish_b.png"/>
-
-            <!--
-            <Ellipse x:Name="eraser_selector" HorizontalAlignment="Left" Height="47" VerticalAlignment="Top" Width="48" Canvas.Left="602" Canvas.Top="238" Panel.ZIndex="6" Stroke="White" StrokeThickness="3">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="White" Offset="0"/>
-                        <GradientStop Color="#4CFFFFFF" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
-            -->
-            <Image x:Name="fish_c" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Canvas.Left="602" Canvas.Top="238" Width="60" Panel.ZIndex="6" Source="Resources/fish_c.png"/>
-
-            <!--
-            <Ellipse x:Name="refresh_selector" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="30" Canvas.Left="610" Canvas.Top="119" Panel.ZIndex="6" Stroke="White" StrokeThickness="3" RenderTransformOrigin="0.5,0.5" Opacity="0.3">
-                <Ellipse.Fill>
-                    <RadialGradientBrush>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </RadialGradientBrush>
-                </Ellipse.Fill>
-            </Ellipse>
+            <Image x:Name="Seaweed" Width="430" Canvas.Top ="65" Height="124" Source="Resources/stones/seaweed_and_stone2.png" Canvas.Left="-10" Panel.ZIndex="10"/>
+            <Image x:Name="Seaweed2" Width="227" Canvas.Top ="256" Height="120" Source="Resources/stones/seaweed_and_stone.png"  Canvas.Left="0" Panel.ZIndex="10"/>
+            <Image x:Name="Stone" Width="111" Canvas.Top ="263" Height="120" Source="Resources/stones/Stone.png" Canvas.Left="376" Panel.ZIndex="10"/>
+            <Image x:Name="Stone2" Width="110" Canvas.Top ="263" Height="120" Source="Resources/stones/Stone.png" Canvas.Left="426" Panel.ZIndex="10"/>
 
 
-            <Ellipse x:Name="background_selector" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="30" Canvas.Left="610" Canvas.Top="156" Panel.ZIndex="6" Stroke="White" StrokeThickness="3" Opacity="0.3">
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="Resources/plus.jpg" Stretch="UniformToFill"/>
-                </Ellipse.Fill>
-            </Ellipse>
-            -->
+
+            <Image x:Name="fish_nimo" HorizontalAlignment="Left" VerticalAlignment="Top" Height="53" Canvas.Left="647" Canvas.Top="436" Width="90" Panel.ZIndex="6" Source="Resources/nimo.png"/>
+            
+
+
+            <Image x:Name="fish_a" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" Canvas.Left="615" Canvas.Top="370" Width="50" Panel.ZIndex="6" Source="Resources/fish_a.png"/>
+
+            <Image x:Name="fish_b" HorizontalAlignment="Left" VerticalAlignment="Top" Height="44" Canvas.Left="616" Canvas.Top="313" Width="55" Panel.ZIndex="6" Source="Resources/fish_b.png"/>
+
+
+            <Image x:Name="fish_c" HorizontalAlignment="Left" VerticalAlignment="Top" Height="47" Canvas.Left="610" Canvas.Top="238" Width="40" Panel.ZIndex="6" Source="Resources/fish_c.png" />
+
 
         </Canvas>
 

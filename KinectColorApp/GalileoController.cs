@@ -56,15 +56,7 @@ namespace KinectColorApp
                     if (message[0] == '0' || message[0] == '1' || message[0] == '2' || message[0] == '3')
                     {
                         char currColor = message[0];
-                        //Console.WriteLine("msg: " + currColor);
-                        if (currColor != prevColor)
-                        {
-                            prevColor = currColor;
-                            int colorNum = currColor - '0';
-                            drawController.ColorChangeFlag(colorNum);
-                            soundController.TriggerColorEffect(colorNum);
-                        }
-                        //Console.WriteLine(message);
+                   
                     } 
                     // Change background:
                     else if (message[0] == '5')

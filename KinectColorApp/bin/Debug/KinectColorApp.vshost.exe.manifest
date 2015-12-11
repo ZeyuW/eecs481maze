@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KinectColorApp.exe" size="13923232">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="KinectColorApp.exe" size="18052000">
       <assemblyIdentity name="KinectColorApp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DdqYWeDPjS5xDObtYCo8qMPLgDd8L53fC6De7TL7bnQ=</dsig:DigestValue>
+        <dsig:DigestValue>W5dSzAg//lHHAo75E+iU2wx80RkQIWyVxQg4qccUonU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -73,7 +73,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8+IWIgzauobaa0WuPx4CGFbVqbS+uJB3EGh1asfEaVo=</dsig:DigestValue>
+        <dsig:DigestValue>g9d5fMH5Dlrd3gj3SmDKgz02g/UHKOZpSWZ0EwRQoTA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -122,6 +122,15 @@
       <dsig:DigestValue>xm4bo26HQ0LNVwz1vdPYtzhkpMnp2AI5i+f0b+OahTI=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Resources\bg_mario.mp3" size="1941153">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>E4etfnBS2u1dgNPf/kMV/Jl4+GcNAJcp4axgzBfJVNs=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Resources\blue_SFX.wav" size="241430">
     <hash>
       <dsig:Transforms>
@@ -156,6 +165,24 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>jLWyIQGhD4rnn0x3xHweh3ds7Rlz5maYxUxe1bMCJRk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\jawsCut.mp3" size="112268">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ondtgMRcly2DbpTOgO/o0FO6MyjkJHNY8mRzZANO6Ug=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\jawsCut.wav" size="969856">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>LMbwi7mR0ItELD/oG4mK3URfg/in6no+0feChohUjs0=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Resources\red_SFX.wav" size="82374">

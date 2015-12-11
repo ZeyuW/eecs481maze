@@ -27,9 +27,6 @@ using FishGame.Speech;
 
 namespace KinectColorApp
 {
-    enum Colors {Red, Green, Blue, White};
-    //enum Backgrounds {Farm, Pokemon, Turtle, Planets, Pony, Car, AlreadySet};
-    
 
     public partial class MainWindow : Window
     {
@@ -44,14 +41,11 @@ namespace KinectColorApp
             backgroundImage.Height = drawingGrid.ActualHeight;
             backgroundImage.Visibility = Visibility.Hidden;
             drawBorder.Visibility = Visibility.Hidden;
-            colorRect.Visibility = Visibility.Hidden;
-
-            //buttons = new Ellipse[] { red_selector, blue_selector, green_selector, eraser_selector, background_selector, refresh_selector };
 
             buttons = new Image[] { fish_nimo, fish_a, fish_b, fish_c };
-
-            drawController = new DrawController(drawingCanvas, backgroundImage, colorRect, image1, buttons);
             soundController = new SoundController();
+            drawController = new DrawController(drawingCanvas, backgroundImage, image1, buttons, soundController);
+           
             kinectController = new KinectController(drawController, image1, soundController, buttons);
         }
 
@@ -83,7 +77,7 @@ namespace KinectColorApp
                     }
 
                     
-                    Seaweed_list = new Image[] { Seaweed };
+                    Seaweed_list = new Image[] { Seaweed, Seaweed2, Stone, Stone2 };
                     foreach (Image ii in Seaweed_list)
                     {
                         ii.Visibility = Visibility.Hidden;
@@ -98,10 +92,7 @@ namespace KinectColorApp
                     this.sensor.AllFramesReady += calController.DisplayColorImageAllFramesReady;
                     this.sensor.ColorStream.Enable();
                     this.sensor.DepthStream.Enable();
-                    //this.sensor.ColorStream.CameraSettings.Contrast = 2.0;
-
-                    Console.WriteLine("abc");
-
+            
                     this.sensor.Start();
 
                     this.mySpeechRecognizer = SpeechRecognizer.Create();
@@ -217,35 +208,10 @@ namespace KinectColorApp
                     this.sensor.ColorStream.CameraSettings.Contrast -= 0.1;
                 } 
             }
-
-            else if ((e.Key >= Key.D0 && e.Key <= Key.D3) || e.Key == Key.W || e.Key == Key.A || e.Key == Key.S)
-            {
-                if (e.Key == Key.W)
-                {
-                    HandleColorChange(0);
-                }
-                else if (e.Key == Key.A)
-                {
-                    HandleColorChange(1);
-                }
-                else if (e.Key == Key.S)
-                {
-                    HandleColorChange(2);
-                }
-                else
-                {
-                    HandleColorChange(e.Key - Key.D0);
-                }
-
-            }
+            
         }
 
-        void HandleColorChange(int inColor)
-        {
-            Colors c = (Colors)(inColor);
-            soundController.TriggerColorEffect((int)c);
-            drawController.ChangeColor(c);
-        }
+
 
         void StopKinect(KinectSensor sensor)
         {
@@ -271,20 +237,67 @@ namespace KinectColorApp
                 case SpeechRecognizer.Verbs.ShowMaze:
                     isMazeOn = true;
                     drawController.showSeaweed(Seaweed_list);
-                    Console.WriteLine("Swap background picture with picture that has the maze");
                     break;
-
                 case SpeechRecognizer.Verbs.RemoveMaze:
                     if (isMazeOn)
                     {
                         drawController.hideSeaweed(Seaweed_list);
                         isMazeOn = false;
                     }
-                    Console.WriteLine("Swap background picture with picture that does not have the maze");
                     break;
-
-                case SpeechRecognizer.Verbs.Reset:
-                    drawController.ClearScreen();
+                case SpeechRecognizer.Verbs.Neemo:
+                    kinectController.resetFishSize();
+                    foreach (Image tmp in buttons)
+                    {
+                        if (tmp.Name == "fish_nimo")
+                        {
+                            kinectController.increaseFishSize(tmp);
+                            break;
+                        }
+                    }
+                    drawController.changeFishImage("nimo");
+                    break;
+                case SpeechRecognizer.Verbs.Dory:
+                    kinectController.resetFishSize();
+                    foreach (Image tmp in buttons)
+                    {
+                        if (tmp.Name == "fish_a")
+                        {
+                            kinectController.increaseFishSize(tmp);
+                            break;
+                        }
+                    }
+                    drawController.changeFishImage("fish_a");
+                    break;
+                case SpeechRecognizer.Verbs.Squirt:
+                    kinectController.resetFishSize();
+                    foreach (Image tmp in buttons)
+                    {
+                        if (tmp.Name == "fish_b")
+                        {
+                            kinectController.increaseFishSize(tmp);
+                            break;
+                        }
+                    }
+                    drawController.changeFishImage("fish_b");
+                    break;
+                case SpeechRecognizer.Verbs.Pearl:
+                    kinectController.resetFishSize();
+                    foreach (Image tmp in buttons)
+                    {
+                        if (tmp.Name == "fish_c")
+                        {
+                            kinectController.increaseFishSize(tmp);
+                            break;
+                        }
+                    }
+                    drawController.changeFishImage("fish_c");
+                    break;
+                case SpeechRecognizer.Verbs.PauseMusic:
+                    soundController.StopMusic();
+                    break;
+                case SpeechRecognizer.Verbs.PlayMusic:
+                    soundController.StartMusic();
                     break;
             }
         }

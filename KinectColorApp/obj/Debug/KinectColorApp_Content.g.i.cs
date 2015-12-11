@@ -8,10 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/bg_mario.mp3")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/blue_sfx.wav")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/change_background_sfx.wav")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/eraser_sfx.wav")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/green_sfx.wav")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/jawscut.mp3")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/jawscut.wav")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/red_sfx.wav")]
 
 

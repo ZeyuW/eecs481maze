@@ -15,7 +15,9 @@ namespace KinectColorApp {
         const String greenEffectPath = @"../../Resources\green_SFX.wav";
         const String blueEffectPath = @"../../Resources\blue_SFX.wav";
         const String eraserEffectPath = @"../../Resources\eraser_SFX.wav";
-        const String backgroundEffectPath = @"../../Resources\change_background_SFX.wav";
+
+        const String inMaze = @"../../Resources\jawsCut.wav";
+        const String backgroundEffectPath = @"../../Resources\finding_nemo_soundtrack.mp3";
 
         const String loadedEffectPath = kalimbaPath;
 
@@ -29,7 +31,7 @@ namespace KinectColorApp {
             musicPlayer.UnloadedBehavior = MediaState.Manual;
             musicPlayer.MediaEnded += Media_Ended;
             effectPlayer = new SoundPlayer();
-            musicPlayer.Source = new Uri(kalimbaPath, UriKind.RelativeOrAbsolute);
+            musicPlayer.Source = new Uri(backgroundEffectPath, UriKind.RelativeOrAbsolute);
             musicPlayer.Volume = 0;
         }
 
@@ -81,7 +83,7 @@ namespace KinectColorApp {
             switch (c)
             {
                 case 0:
-                    effectPlayer.SoundLocation = redEffectPath;
+                    effectPlayer.SoundLocation = inMaze;
                     effectPlayer.Play();
                     break;
                 case 1:

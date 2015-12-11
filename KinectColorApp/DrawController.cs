@@ -18,25 +18,22 @@ namespace KinectColorApp
 
     class DrawController
     {
-        private Colors color = Colors.Red;
 
 		public bool backgroundAlreadySet = true;
 
-        public int shouldChangeColor = -1;
         int prevBackground = 0;
 
         public bool isSeaweedShow = false;
 
-        double last_x = 9999;
-        double last_y = 9999;
+        double last_x = Double.MaxValue;
+        double last_y = Double.MaxValue;
 
-        
+        private SoundController soundController;
         string fishName = "nimo";
-       // string fishPath = @"..\..\Resources\nimo.png";
+        bool need_change_image = false;
 
         public Canvas drawingCanvas;
         public Image backgroundImage;
-        public Rectangle colorRect;
         public Image canvasImage;
 
 
@@ -50,13 +47,13 @@ namespace KinectColorApp
 
        
 
-        public DrawController(Canvas canvas, Image image, Rectangle rect, Image canvasImage, Image[] buttons)
+        public DrawController(Canvas canvas, Image image, Image canvasImage, Image[] buttons, SoundController in_soundController)
         {
             drawingCanvas = canvas;
             backgroundImage = image;
-            colorRect = rect;
             this.canvasImage = canvasImage;
             this.buttons = buttons;
+            soundController = in_soundController;
 
 			//Get Backgrounds in Dropbox
 			backgrounds = new List<Background>();
@@ -78,10 +75,7 @@ namespace KinectColorApp
 			backgroundAlreadySet = false;
         }
 
-        public void ColorChangeFlag(int new_color)
-        {
-            shouldChangeColor = new_color;
-        }
+    
 
 		public void ChangeBackground()
         {
@@ -94,13 +88,6 @@ namespace KinectColorApp
             
 			backgroundAlreadySet = true;
 			backgroundImage.Source = new BitmapImage(new_background.uri);
-            /*
-            string tmp_uri = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg\fireworks.gif";
-            Uri gifUri = new Uri(tmp_uri);
-            GifBitmapDecoder decoder = new GifBitmapDecoder(gifUri, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-
-            backgroundImage.Source = decoder.Frames[0];
-            */
             backgroundImage.Height = 900;
             backgroundImage.Width = 1367;
         }
@@ -109,47 +96,10 @@ namespace KinectColorApp
         public void changeFishImage(string in_fishName)
         {
             fishName = in_fishName;
-            //fishPath = @"..\..\Resources\" + fishName + ".png"; 
+            need_change_image = true;
         }
 
-
-        public void ChangeColor(Colors new_color)
-        {
-            color = new_color;
-            
-            // Reset shouldChangeColor:
-            shouldChangeColor = -1;
-
-            // Change colorRects color:
-            LinearGradientBrush gradientBrush = new LinearGradientBrush();
-            gradientBrush.StartPoint = new Point(0.5, 0);
-            gradientBrush.EndPoint = new Point(0.5, 1);
-
-            if (new_color == Colors.Red)
-            {
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, 200, 0), 0));
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 0, 0), 1.0));
-            }
-            else if (new_color == Colors.Green)
-            {
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 0, 255, 200), 0));
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255, 0, 255, 0), 1.0));
-            }
-            else if (new_color == Colors.Blue)
-            {
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 200, 0, 255), 0));
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255, 0, 0, 255), 1.0));
-            }
-            else if (new_color == Colors.White)
-            {
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 250, 250, 250), 0));
-                gradientBrush.GradientStops.Add(new GradientStop(Color.FromArgb(255, 100, 100, 100), 1.0));
-            }
-            
-            // Change color indicator:
-            //colorRect.Fill = gradientBrush;
-        }
-
+       
         public bool isInSeaweedArea(double x, double y)
         {
             if (!isSeaweedShow)
@@ -159,8 +109,10 @@ namespace KinectColorApp
             {
                 double top = Canvas.GetTop(i);
                 double left = Canvas.GetLeft(i);
-                if (y >=top + 50 && x >= left && y <= top + i.Height && x <= left + i.Width)
+                if (y >= top + 30 && x >= left && y <= top + i.Height && x <= left + i.Width)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -173,9 +125,10 @@ namespace KinectColorApp
 
         public void DrawFishes(List<Point> pointList, List<int> depthList)
         {
-            ClearScreen();
-            last_x = 9999;
-            last_y = 9999;
+            //ClearScreen();
+            bool need_clean_screen = true;
+            last_x = Double.MaxValue;
+            last_y = Double.MaxValue;
             List<Point> temp_draw_points = new List<Point>();
             List<int> temp_draw_depths = new List<int>();
             List<string> temp_draw_fishname = new List<string>();
@@ -192,6 +145,7 @@ namespace KinectColorApp
 
                 if (isInSeaweedArea(x, y))
                 {
+                    //soundController.TriggerColorEffect(0);
                     bool draw_last_point = false;
                     for (int i = 0; i < actual_draw_points.Count; i++)
                     {
@@ -209,13 +163,13 @@ namespace KinectColorApp
 
                 // The loop will decide fish direction
                 string tmp_fishName = fishName;
-                double minDist = 999999;
+                
+                double minDist = Double.MaxValue;
                 int point_index = 0;
                 for (int k = 0; k < actual_draw_points.Count; k++)
                 {
                     // if within the range: the same fish
 
-                    //if (Math.Abs(x - actual_draw_points[k].X) < 30 && Math.Abs(y - actual_draw_points[k].Y) < 30)
                     if ((x - actual_draw_points[k].X) * (x - actual_draw_points[k].X) + (y - actual_draw_points[k].Y) * (y - actual_draw_points[k].Y) < minDist)
                     {
                         minDist = (x - actual_draw_points[k].X) * (x - actual_draw_points[k].X) + (y - actual_draw_points[k].Y) * (y - actual_draw_points[k].Y);
@@ -224,7 +178,7 @@ namespace KinectColorApp
                     }
 
                 }
-                if (actual_draw_points.Count != 0)
+                if (actual_draw_points.Count != 0 && !need_change_image)
                 {
                     tmp_fishName = actual_draw_fishname[point_index];
                     if (x - actual_draw_points[point_index].X > 10 && tmp_fishName.Length <= 6)
@@ -236,7 +190,17 @@ namespace KinectColorApp
                         tmp_fishName = fishName;
                     }
                 }
-                   
+
+                if (need_clean_screen)
+                {
+                    ClearScreen();
+                    need_clean_screen = false;
+                }
+
+                if (need_change_image)
+                {
+                    need_change_image = false;
+                }
 
                 temp_draw_points.Add(new Point(x, y));
                 temp_draw_depths.Add(depth);
@@ -291,83 +255,7 @@ namespace KinectColorApp
             }
         }
 
-        /*
-        public void DrawEllipseAtPoint(double x, double y, int depth)
-        {
-            // i add
-            ClearScreen();
-
-
-            // Create an ellipse with a gradient brush
-            Ellipse myEllipse = new Ellipse();
-            RadialGradientBrush brush = new RadialGradientBrush();
-
-
-            fish = new Image();
-            string fishPath = @"C:\Users\Shuoyang\Desktop\481\KinectColorApp\KinectColorApp\Resources\nimo.png";
-            Uri fishUri = new Uri(fishPath);
-            BitmapImage bi = new BitmapImage(fishUri);
-            //bi.BeginInit();
-            //bi.UriSource = fishUri;
-            fish.Source = bi;
-
-            fish.Name = "fish";
-
-
-
-            int colorValue = (int)(255 * (depth / ColorChangeSpeed));
-            if (colorValue < 0) colorValue = 0;
-            if (colorValue > 255) colorValue = 255;
-
-            // Set the color based on depth data
-            if (color == Colors.Red)
-            {
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(200, 255, (byte)colorValue, 0), 0.0));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(200, 255, (byte)colorValue, 0), 0.4));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 255, (byte)colorValue, 0), 1.0));
-            }
-            else if (color == Colors.Green)
-            {
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(200, 0, 255, (byte)colorValue), 0.0));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(200, 0, 255, (byte)colorValue), 0.4));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(0, 0, 255, (byte)colorValue), 1.0));
-            }
-            else if (color == Colors.Blue)
-            {
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(200, (byte)colorValue, 0, 255), 0.0));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(200, (byte)colorValue, 0, 255), 0.4));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(0, (byte)colorValue, 0, 255), 1.0));
-            }
-            else if (color == Colors.White) 
-            {
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 0.0));
-                brush.GradientStops.Add(new GradientStop(Color.FromArgb(255, 255, 255, 255), 1.0));
-            }
-
-            myEllipse.Fill = brush;
-            myEllipse.StrokeThickness = 0;
-
-            // Set the width and height of the Ellipse.
-            myEllipse.Width = 20 + 15 * (depth / 60.0);
-            myEllipse.Height = 20 + 15 * (depth / 60.0);
-
-            fish.Width = 50 + 60 * (depth / 60.0);
-            fish.Height = 50 + 60 * (depth / 60.0);
-
-            //Canvas.SetTop(myEllipse, y - myEllipse.Height/2);
-            //Canvas.SetLeft(myEllipse, x - myEllipse.Width/2);
-            //Canvas.SetZIndex(myEllipse, 0);
-
-            Canvas.SetTop(fish, y - fish.Height / 2);
-            Canvas.SetLeft(fish, x - fish.Width / 2);
-            Canvas.SetZIndex(fish, 2);
-
-            // Add the Ellipse to the drawingCanvas
-
-
-            drawingCanvas.Children.Add(fish);
-        }
-        */
+       
 
         public void ClearScreen()
         {
@@ -386,50 +274,12 @@ namespace KinectColorApp
 
 
         
-        public void SaveCanvas()
-        {
-            Size size = new Size(System.Windows.SystemParameters.PrimaryScreenWidth, System.Windows.SystemParameters.PrimaryScreenHeight);
-            drawingCanvas.Measure(size);
-            backgroundImage.Visibility = Visibility.Hidden;
-
-            foreach (Image ellipse in buttons)
-            {
-                ellipse.Visibility = Visibility.Hidden;
-            }
-
-            var rtb = new RenderTargetBitmap(
-                (int)System.Windows.SystemParameters.PrimaryScreenWidth, //width 
-                (int)System.Windows.SystemParameters.PrimaryScreenHeight, //height 
-                96, //dpi x 
-                96, //dpi y 
-                PixelFormats.Pbgra32 // pixelformat 
-                );
-            rtb.Render(drawingCanvas);
-            backgroundImage.Visibility = Visibility.Visible;
-            foreach (Image ellipse in buttons)
-            {
-                ellipse.Visibility = Visibility.Visible;
-            }
-
-            canvasImage.Source = rtb;
-
-            // Remove ellipses only
-            var shapes = drawingCanvas.Children.OfType<Ellipse>().ToList();
-            foreach (var shape in shapes)
-            {
-                if (shape.Name != "red_selector" && shape.Name != "blue_selector" && shape.Name != "green_selector" && shape.Name != "eraser_selector" && shape.Name != "background_selector" && shape.Name != "refresh_selector")
-                {
-                    drawingCanvas.Children.Remove(shape);
-                }
-            }
-        }
+       
         
         
 		public void findAndInitializeBackgrounds()
 		{
-            //string dropBox = @"C:\Users\Shuoyang\Desktop\481Git\eecs481maze\KinectColorApp\Resources\bg";
             string dropBox = @"..\..\Resources\bg";
-            //Console.WriteLine(Directory.GetCurrentDirectory());
 
             string[] fileEntries = Directory.GetFiles(dropBox);
 			foreach(string file in fileEntries)

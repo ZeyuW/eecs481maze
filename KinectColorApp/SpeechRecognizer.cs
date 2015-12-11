@@ -24,12 +24,16 @@ namespace FishGame.Speech
     {
         private readonly Dictionary<string, WhatSaid> mazeGame = new Dictionary<string, WhatSaid>
         {
-            { "Reset", new WhatSaid { Verb = Verbs.Reset} },
-            { "Clear", new WhatSaid { Verb = Verbs.Reset } },
             { "Change Background", new WhatSaid { Verb = Verbs.ChangeBackground } },
             { "Show Maze", new WhatSaid { Verb = Verbs.ShowMaze } },
             { "Remove Maze", new WhatSaid { Verb = Verbs.RemoveMaze } },
             { "Change Fish", new WhatSaid { Verb = Verbs.ChangeFish } },
+            { "Neemo", new WhatSaid { Verb = Verbs.Neemo } },
+            { "Dory", new WhatSaid { Verb = Verbs.Dory } },
+            { "Pearl", new WhatSaid { Verb = Verbs.Pearl } },
+            { "Squirt", new WhatSaid { Verb = Verbs.Squirt} },
+            { "Play", new WhatSaid { Verb = Verbs.PlayMusic } },
+            { "Pause", new WhatSaid { Verb = Verbs.PauseMusic } },
         };
 
         private SpeechRecognitionEngine sre;
@@ -56,6 +60,12 @@ namespace FishGame.Speech
             ShowMaze,
             RemoveMaze,
             ChangeFish,
+            Neemo,
+            Dory, 
+            PlayMusic,
+            PauseMusic,
+            Pearl,
+            Squirt,
         }
 
         public EchoCancellationMode EchoCancellationMode
